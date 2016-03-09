@@ -1,13 +1,14 @@
 # coding: utf-8
 import json
 import os
-from time import sleep
 
 import MySQLdb
 from mkspider.settings import *
-import requests
+import requests, sys
 from multiprocessing import Pool, Manager
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # 打开数据库连接
 
@@ -104,9 +105,11 @@ def create_path(path):
     if os.path.exists(path):
         pass
     else:
-        os.mkdir(path)
-    return path
-
+        try:
+            os.makedirs(path)
+            return path
+        except Exception:
+            print Exception.message
 
 def update_status(data):
     db = dbconnect()
@@ -124,6 +127,7 @@ def update_status(data):
 
 def downLoad(data):
     r = requests.get(data["LessVideo"])
+    print data["pLessName"]
     base_path = create_path("e://mkweb//" + data["pLessName"] + "//")
     video = base_path + data["LessName"] + ".mp4"
     # print(video)
@@ -139,8 +143,9 @@ def downLoad(data):
 
 
 if __name__ == "__main__":
-    pool = Pool(16)
-    datas = get_db_data()
-    pool.map(downLoad, datas)
-    pool.close()
-    pool.join()
+    create_path('e:\\mkweb\\web\\JS+CSS3实现“粽情端午“')
+    # pool = Pool(16)
+    # datas = get_db_data()
+    # pool.map(downLoad, datas)
+    # pool.close()
+    # pool.join()
