@@ -53,9 +53,9 @@ class mkspiders(BaseSpider):
     def get_download(self, response):
         meta = response.meta['meta']
         video_json = json.loads(response.body)['data']['result']['mpath']
-        # print video_json
-        if video_json == 'false':
-            print video_json
-            # for video in video_json:
-            #     if 'H.mp4' in video:
-            #         print video
+        for item in video_json:
+            mkitem = MkspiderItem()
+            if 'h.mp4' in str(item).lower():
+                meta['LessVideo'] =item
+                mkitem = meta
+                yield mkitem
