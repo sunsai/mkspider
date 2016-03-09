@@ -10,5 +10,11 @@ import scrapy
 
 class MkspiderItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
+    LessID = scrapy.Field()
+    LessName = scrapy.Field()
+    LessHref = scrapy.Field()
+    LessVideo = scrapy.Field()
+    pLessID = scrapy.Field()
+    pLessName = scrapy.Field()
+    pLessHref = scrapy.Field()
     pass

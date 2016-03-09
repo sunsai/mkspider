@@ -14,6 +14,10 @@ BOT_NAME = 'mkspider'
 SPIDER_MODULES = ['mkspider.spiders']
 NEWSPIDER_MODULE = 'mkspider.spiders'
 
+MYSQL_HOST = '192.168.13.1'
+MYSQL_DBNAME = 'mzdb'
+MYSQL_USER = 'root'
+MYSQL_PASSWD = 'sunsasi'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'mkspider (+http://www.yourdomain.com)'
@@ -61,9 +65,9 @@ NEWSPIDER_MODULE = 'mkspider.spiders'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'mkspider.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   # 'mkspider.pipelines.SomePipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
