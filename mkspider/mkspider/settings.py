@@ -67,6 +67,7 @@ MYSQL_PASSWD = 'sunsasi'
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    # 'mkspider.pipelines.SomePipeline': 300,
+   'mkspider.pipelines.MkspiderPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
