@@ -1,3 +1,4 @@
+# coding:utf-8
 from scrapy.spiders import BaseSpider
 from scrapy.http import Request
 from scrapy.selector import Selector
@@ -44,18 +45,28 @@ class mkspiders(BaseSpider):
         for course in course_css:
             href = Selector(text=course).css('a::attr(href)').extract()[0]
             id = href[str(href).rindex('/') + 1:]
+            name = str(Selector(text=course).css('a::text').extract()[0]).strip()
+            try:
+                name.index('(')
+                name = name[:name.index('(') - 1].strip()
+            except:
+                pass
+            print id, name, href
             meta['LessID'] = id
             meta['LessHref'] = href
-            meta['LessName'] = str(Selector(text=course).css('a::text').extract()[0]).strip()
+            meta['LessName'] = name
             url = 'http://www.imooc.com/course/ajaxmediainfo/?mid=' + id + '&mode=flash'
             yield Request(url, callback=self.get_download, meta={'meta': meta})
 
     def get_download(self, response):
         meta = response.meta['meta']
         video_json = json.loads(response.body)['data']['result']['mpath']
+        # print video_json
         for item in video_json:
-            mkitem = MkspiderItem()
             if 'h.mp4' in str(item).lower():
+                print id, item
                 meta['LessVideo'] =item
+                mkitem = MkspiderItem()
                 mkitem = meta
+                print mkitem
                 yield mkitem
