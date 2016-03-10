@@ -35,9 +35,10 @@ class MkspiderPipeline(object):
         else:
             try:
                 tx.execute(
-                    '''INSERT INTO mkcourse(LessID,LessName,LessHref,LessVideo,pLessID,pLessName,pLessHref)
-                     values (%s, %s,%s,%s,%s,%s,%s) ''',
-                    (item["LessID"], item["LessName"], item["LessHref"], item["LessVideo"], item["pLessID"],
+                    '''INSERT INTO mkcourse(LessID,LessName,LessHref,LessVideo,VideoHref,pLessID,pLessName,pLessHref)
+                     values (%s, %s,%s,%s,%s,%s,%s,%s) ''',
+                    (item["LessID"], item["LessName"], item["LessHref"], item["LessVideo"], item["VideoHref"],
+                     item["pLessID"],
                      item["pLessName"], item["pLessHref"])
                 )
             except Exception:

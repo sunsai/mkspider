@@ -14,6 +14,7 @@ class MkspiderItem(scrapy.Item):
     LessName = scrapy.Field()
     LessHref = scrapy.Field()
     LessVideo = scrapy.Field()
+    VideoHref = scrapy.Field()
     pLessID = scrapy.Field()
     pLessName = scrapy.Field()
     pLessHref = scrapy.Field()

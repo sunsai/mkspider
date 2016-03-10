@@ -27,7 +27,7 @@ class mkspiders(BaseSpider):
         print '========================================'
         page_course_css = Selector(text=response.body).css('div.js-course-lists li.course-one ').extract()
         for item in page_course_css:
-            meta = {}
+            meta = MkspiderItem()
             href = Selector(text=item).css('a::attr(href)').extract()[0]
             if href:
                 id = href[str(href).rindex('/') + 1:]
@@ -35,8 +35,7 @@ class mkspiders(BaseSpider):
                 meta['pLessID'] = id
                 meta['pLessHref'] = href
             title = Selector(text=item).css('a h5 span::text').extract()[0]
-            meta['pLessName'] = title
-            # print 'href:%s title:%s' %(href,title)
+            meta['pLessName'] = str(title).replace('"', '').replace('\'', '')
             yield Request(href, callback=self.parse_course, meta={'meta': meta})
 
     def parse_course(self, response):
@@ -56,17 +55,16 @@ class mkspiders(BaseSpider):
             meta['LessHref'] = href
             meta['LessName'] = name
             url = 'http://www.imooc.com/course/ajaxmediainfo/?mid=' + id + '&mode=flash'
+            meta['LessVideo'] = url
+            meta['VideoHref'] = ''
             yield Request(url, callback=self.get_download, meta={'meta': meta})
 
     def get_download(self, response):
-        meta = response.meta['meta']
+        mkitem = response.meta['meta']
         video_json = json.loads(response.body)['data']['result']['mpath']
-        # print video_json
         for item in video_json:
             if 'h.mp4' in str(item).lower():
-                print id, item
-                meta['LessVideo'] =item
-                mkitem = MkspiderItem()
-                mkitem = meta
-                print mkitem
-                yield mkitem
+                mkitem['VideoHref'] = item
+            else:
+                mkitem['VideoHref'] = ''
+        yield mkitem

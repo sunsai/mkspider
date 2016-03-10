@@ -126,26 +126,26 @@ def update_status(data):
 
 
 def downLoad(data):
-    r = requests.get(data["LessVideo"])
-    print data["pLessName"]
+    r = requests.get(data['LessVideo'].lower()).content
     base_path = create_path("e://mkweb//" + data["pLessName"] + "//")
     video = base_path + data["LessName"] + ".mp4"
-    # print(video)
-    try:
-        with open(video, "wb") as code:
-            code.write(r.content)
-        # update_status(data)
-        print(video + " is down load success!")
-    except Exception:
-        print("the down video:%(LessName)s load is failer\n url is :%(LessHref)s \n videourl:%(LessVideo)s " % data)
-        print(Exception.message)
+    if os.path.exists(video) == False:
+        try:
+            with open(video, "wb") as code:
+                code.write(r)
+            print(video + " is down load success!")
+        except Exception:
+            print("the down video:%(LessName)s load is failer\n url is :%(LessHref)s \n videourl:%(LessVideo)s " % data)
+            print(Exception.message)
+            pass
+    else:
         pass
 
 
 if __name__ == "__main__":
-    create_path('e:\\mkweb\\web\\JS+CSS3实现“粽情端午“')
-    # pool = Pool(16)
-    # datas = get_db_data()
-    # pool.map(downLoad, datas)
-    # pool.close()
-    # pool.join()
+    # create_path('e:\\mkweb\\web\\JS+CSS3实现“粽情端午“')
+    pool = Pool(16)
+    datas = get_db_data()
+    pool.map(downLoad, datas)
+    pool.close()
+    pool.join()
